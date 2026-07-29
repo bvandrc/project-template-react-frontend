@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en" class="max-md:overflow-x-hidden max-md:m-0">
+  <head>
+        <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ID-CHANGE-THIS"></script>
+    <script>
+      window.global ||= window; 
+      window.dataLayer = window.dataLayer || []
+      function gtag() {
+        // biome-ignore lint/complexity/noArguments: suggested implementation by Google.
+        dataLayer.push(arguments)
+      }
+      gtag('js', new Date())
+      gtag('config', 'G-ID-CHANGE-THIS')
+    </script>
+
+    <!-- Basic -->
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="A Vite + React + TypeScript starter with Tailwind, Biome, and Playwright." />
+    <meta name="theme-color" content="#0b0f17" />
+    <title>React Frontend Template</title>
+
+    <!-- Preview -->
+    <meta property="og:title" content="React Frontend Template" />
+    <meta property="og:description" content="A Vite + React + TypeScript starter with Tailwind, Biome, and Playwright." />
+    <meta property="og:url" content="https://example.com" />
+    <meta property="og:image" content="/preview.svg" />
+
+    <!-- Icon for favorites -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body class="max-md:overflow-x-hidden max-md:m-0">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

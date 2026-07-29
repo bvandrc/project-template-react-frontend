@@ -1,0 +1,63 @@
+name: Production Lighthouse
+
+on:
+  workflow_run:
+    workflows: [Deploy]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      target_url:
+        description: URL to audit
+        required: false
+        default: https://example.com/
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  lighthouse:
+    name: Lighthouse
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    # run after every Deploy that succeeded, or on manual dispatch
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+
+    env:
+      PLAYWRIGHT_BASE_URL: ${{ github.event.inputs.target_url || 'https://example.com/' }}
+
+    steps:
+      - name: Wait 15 minutes for the deploy to propagate
+        if: github.event_name == 'workflow_run'
+        run: sleep 900
+
+      - name: Checkout repo
+        uses: actions/checkout@v7
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Setup Playwright
+        uses: ./.github/actions/setup-playwright
+
+      - name: Check target URL is reachable
+        uses: jtalk/url-health-check-action@v5
+        with:
+          url: ${{ env.PLAYWRIGHT_BASE_URL }}
+          max-attempts: 10
+          retry-delay: 10s
+          retry-all: true
+
+      - name: Run Lighthouse audits
+        run: pnpm test:lighthouse:production
+
+      - name: Upload reports
+        uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: lighthouse-reports
+          path: playwright/results
+          if-no-files-found: ignore
