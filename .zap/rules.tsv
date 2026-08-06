@@ -1,7 +1,5 @@
-10017	IGNORE	(Cross-Domain JavaScript Source File Inclusion) — the Google Analytics/gtag.js script is deliberately loaded from googletagmanager.com.
 10049	IGNORE	(Storable/Cacheable Content) — static assets are deliberately cached; API responses are deliberately no-store.
 10094	IGNORE	(Base64 Disclosure) — heuristic match on base64-looking strings in JS bundles; false-positive prone, not an actual secret leak.
 10109	IGNORE	(Modern Web Application) — informational only; confirms the app is an SPA, not a finding to act on.
 90003	IGNORE	(Sub Resource Integrity Attribute Missing) — needs a Vite SRI plugin to hash-sign build output; a build-tooling change, not a header fix.
-90004	IGNORE	(Cross-Origin-Embedder-Policy Header Missing or Invalid) — enabling COEP blocks the cross-origin Google Analytics script with no net security benefit for a static frontend template.
 90005	IGNORE	(Sec-Fetch-Dest Header is Missing) — this is a request header the browser sends; not something the server can set.
