@@ -37,8 +37,6 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     if: github.ref == 'refs/heads/main'
-    permissions:
-      actions: write
 
     steps:
       - name: Download artifact
@@ -52,8 +50,3 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
-
-      - name: Trigger Production Lighthouse
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh workflow run production-lighthouse.yml --ref ${{ github.ref_name }}
