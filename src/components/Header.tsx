@@ -1,7 +1,7 @@
 export const Header = () => (
   <header className="flex flex-col gap-3" data-testid="header">
     <img
-      src="/logo.svg"
+      src={`${import.meta.env.BASE_URL}logo.svg`}
       alt=""
       width={40}
       height={40}

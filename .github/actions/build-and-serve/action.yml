@@ -6,6 +6,10 @@ inputs:
     description: Port the server listens on
     required: false
     default: '4173'
+  base-path:
+    description: Base path the app is served under (must match BASE_PATH in site.config.ts)
+    required: false
+    default: /project-template-react-frontend/
 
 runs:
   using: composite
@@ -22,7 +26,7 @@ runs:
     - name: Wait for server to be ready
       uses: jtalk/url-health-check-action@v5
       with:
-        url: http://localhost:${{ inputs.port }}/
+        url: http://localhost:${{ inputs.port }}${{ inputs.base-path }}
         max-attempts: 30
         retry-delay: 1s
         retry-all: true
