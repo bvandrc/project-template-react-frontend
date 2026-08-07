@@ -4,6 +4,20 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch: # Allows manual triggering
+
+# Required by actions/deploy-pages. Without `pages: write` + `id-token: write`
+# the deploy step gets a read-only token and fails with a 403.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never cancel an in-progress deploy: let it finish so the site is never left
+# half-published, and queue anything that lands while it runs.
+concurrency:
+  group: pages
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -24,9 +38,8 @@ jobs:
         run: pnpm build
 
       - name: Upload production-ready build files
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-pages-artifact@v4
         with:
-          name: production-files
           path: ./dist
 
   deploy:
@@ -36,17 +49,8 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    if: github.ref == 'refs/heads/main'
 
     steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v8
-        with:
-          name: production-files
-          path: ./dist
-
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+        id: deployment
+        uses: actions/deploy-pages@v4
