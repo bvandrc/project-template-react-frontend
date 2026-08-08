@@ -74,16 +74,10 @@ jobs:
           if-no-files-found: ignore
           retention-days: 7
 
-  # Kept for repos generated from this template, skipped in the template itself.
-  #
-  # The scan flags missing security response headers (CSP, X-Frame-Options,
-  # X-Content-Type-Options, Permissions-Policy, COEP). Fixing those means
-  # committing to a real header policy, which is a per-app decision — and
-  # GitHub Pages can't send response headers anyway, so the template has no
-  # honest way to satisfy it. Delete this `if` once your app serves headers.
   zap-security-scan:
     name: ZAP Security Scan
     runs-on: ubuntu-latest
+    # Kept for repos generated from this template, skipped in the template itself.
     if: github.repository != 'bvandrc/project-template-react-frontend'
 
     env:
