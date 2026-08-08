@@ -77,6 +77,8 @@ jobs:
   zap-security-scan:
     name: ZAP Security Scan
     runs-on: ubuntu-latest
+    # Kept for repos generated from this template, skipped in the template itself.
+    if: github.repository != 'bvandrc/project-template-react-frontend'
 
     env:
       PORT: 4173
